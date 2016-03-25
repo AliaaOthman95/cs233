@@ -116,6 +116,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 		}
 		T root = getRoot().getValue();
 		tree.remove(0);
+		heapify(getRoot());
 		return root ;
 	}
 
@@ -164,10 +165,10 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 
 	private void bubbleUp(INode<T> node) {
         INode parent = node.getParent();
-        while ( parent.getValue().compareTo(node.getValue()) <0) {
+        while (parent.getValue().compareTo(node.getValue()) <0) {
             swap(parent, node);
             node = parent ;
-            parent = parent.getParent();
+            parent = node.getParent();
         }
     }
 
