@@ -121,7 +121,8 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 
 	@Override
 	public void insert(T element) {
-		
+	    if(element != null)
+	    {
         if (size()==0)
         {
         	INode node = new Node(size());
@@ -135,6 +136,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 		tree.add(node);
 		bubbleUp(node);
         }
+	    }
 	}
 
 	public ArrayList<INode> getTree() {
