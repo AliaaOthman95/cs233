@@ -82,9 +82,11 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 	@Override
 	public void heapify(INode<T> node) {
 		// TODO Auto-generated method stub
+		if(size()==0)
+		{
+			return;
+		}
 		INode l,r,largest ;
-		
-		
 		l = node.getLeftChild();
 		r = node.getRightChild();
 		if (l != null && l.getValue().compareTo(node.getValue())>0)
@@ -116,7 +118,6 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 		}
 		T root = getRoot().getValue();
 		tree.remove(0);
-		heapify(getRoot());
 		return root ;
 	}
 
