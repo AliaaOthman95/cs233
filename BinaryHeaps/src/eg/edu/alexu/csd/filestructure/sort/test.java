@@ -36,7 +36,7 @@ public class test {
   heap2.insert(4);
   heap2.insert(1);*/
   //heap.print();
-  heap.heapify(heap.getTree().get(1));
+  //heap.heapify(heap.getTree().get(1));
   
  /* int a = heap.extract();
   Assert.assertEquals(16,a);

@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 	private ArrayList<INode> tree ;
-	//private int size = 0;
 	 public Heap() {
 	        tree = new ArrayList<>();
 	    }
@@ -82,6 +81,10 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 	@Override
 	public void heapify(INode<T> node) {
 		// TODO Auto-generated method stub
+		if(size()==1)
+		{
+			return;
+		}
 		INode l,r,largest ;
 		l = node.getLeftChild();
 		r = node.getRightChild();
@@ -108,7 +111,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 	@Override
 	public T extract() {
 		// TODO Auto-generated method stub
-		if(tree.size()==0)
+		if(size()==0)
 		{
 			return null;
 		}
@@ -124,7 +127,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 	    {
         if (size()==0)
         {
-        	INode node = new Node(size());
+        	INode node = new Node(0);
         	node.setValue(element);
         	tree.add(node);
         	
@@ -136,11 +139,10 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 		bubbleUp(node);
         }
 	    }
+	    System.out.println();
 	}
 
-	public ArrayList<INode> getTree() {
-		return tree;
-	}
+	
 
 	@Override
 	public void build(Collection<T> unordered) {
@@ -169,6 +171,9 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
             parent = node.getParent();
         }
     }
+	public ArrayList<INode> getTree() {
+		return tree;
+	}
 	/*public void print ()
 	{
 		for (Iterator iterator = tree.iterator(); iterator.hasNext();) {
