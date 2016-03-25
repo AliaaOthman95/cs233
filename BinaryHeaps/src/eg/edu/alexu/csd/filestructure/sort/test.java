@@ -12,7 +12,7 @@ public class test {
  @Test
  public void test1() {
   
-  IHeap<Integer> heap = new Heap<Integer> ();
+  Heap<Integer> heap = new Heap<Integer> ();
   heap.insert(16);
   heap.insert(4);
   heap.insert(10);
@@ -35,9 +35,10 @@ public class test {
   heap2.insert(2);
   heap2.insert(4);
   heap2.insert(1);*/
+  //heap.print();
+  heap.heapify(heap.getTree().get(1));
   
- // heap.heapify(heap.getRoot());
-  int a = heap.extract();
+ /* int a = heap.extract();
   Assert.assertEquals(16,a);
   heap.heapify(heap.getRoot());
   a = heap.extract();
@@ -66,7 +67,7 @@ public class test {
   Assert.assertEquals(4,a);
   heap.heapify(heap.getRoot());
   a = heap.extract();
-  Assert.assertEquals(1,a);
+  Assert.assertEquals(1,a);*/
   //Assert.assertEquals(heap, heap2);
  
  }

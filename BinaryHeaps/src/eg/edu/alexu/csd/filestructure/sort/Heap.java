@@ -45,7 +45,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 		public INode getParent() {
 			// TODO Auto-generated method stub
 			if(index!= 0){
-			return tree.get((int) Math.floor(index/2));
+			return tree.get((int) Math.floor(index-1/2));
 			}
 			return null;
 		}
@@ -82,10 +82,6 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 	@Override
 	public void heapify(INode<T> node) {
 		// TODO Auto-generated method stub
-		if(size()==0)
-		{
-			return;
-		}
 		INode l,r,largest ;
 		l = node.getLeftChild();
 		r = node.getRightChild();
@@ -118,6 +114,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 		}
 		T root = getRoot().getValue();
 		tree.remove(0);
+		heapify(getRoot());
 		return root ;
 	}
 
@@ -164,7 +161,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 	    larger.setValue(value);
 	}
 
-	private void bubbleUp(INode<T> node) {
+	public void bubbleUp(INode<T> node) {
         INode parent = node.getParent();
         while (parent.getValue().compareTo(node.getValue()) <0) {
             swap(parent, node);
@@ -172,7 +169,15 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
             parent = node.getParent();
         }
     }
-
+	/*public void print ()
+	{
+		for (Iterator iterator = tree.iterator(); iterator.hasNext();) {
+			
+			  T type = (T) iterator.next(;
+			  System.out.println(type.toString());
+		}
+		
+	}*/
 	
 
 }
