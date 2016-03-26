@@ -186,7 +186,7 @@ public class Heap<T extends Comparable<T>> implements IHeap<T> {
 			heapify(tree.get(0));
 
 		}
-		setSize((size()));
+		setSize(size);
 		return this;
 	}
 
