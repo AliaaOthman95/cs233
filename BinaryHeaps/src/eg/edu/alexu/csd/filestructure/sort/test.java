@@ -1,4 +1,4 @@
- package eg.edu.alexu.csd.filestructure.sort;
+/* package eg.edu.alexu.csd.filestructure.sort;
 
 import java.util.ArrayList;
 
@@ -72,7 +72,7 @@ public class test {
   //Assert.assertEquals(heap, heap2);
  
  }*/
- @Test
+/* @Test
  public void test2() {
 	 Sort<Integer> heap2=new Sort<Integer>();
 	 ArrayList<Integer> list = new ArrayList<Integer>();
@@ -94,7 +94,7 @@ public class test {
 	 
 	 h.print();
 	 
- }
+ }*/
  
 
-}
+//}
