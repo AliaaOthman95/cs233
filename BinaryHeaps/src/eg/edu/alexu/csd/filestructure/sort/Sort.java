@@ -26,7 +26,7 @@ public class Sort<T extends Comparable<T>> implements ISort<T> {
 		boolean swapped = true;
 		while (swapped) {
 			swapped = false;
-			for (int i = 1; i < unordered.size() - 1; i++) {
+			for (int i = 1; i <= unordered.size() - 1; i++) {
 
 				if (unordered.get(i - 1).compareTo(unordered.get(i)) > 0) {
 					Collections.swap(unordered, i, i - 1);

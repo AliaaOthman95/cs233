@@ -23,7 +23,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 		@Override
 		public INode getLeftChild() {
 			// TODO Auto-generated method stub
-			if( 2*index+1 < size()-1)
+			if( 2*index+1 <= size()-1)
 			{
 				return tree.get(2*index+1);
 			}
@@ -33,7 +33,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 		@Override
 		public INode getRightChild() {
 			// TODO Auto-generated method stub
-			if( 2*index+2 < size()-1)
+			if( 2*index+2 <= size()-1)
 			{
 				return tree.get(2*index+2);
 			}
@@ -44,7 +44,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 		public INode getParent() {
 			// TODO Auto-generated method stub
 			if(index!= 0){
-			return tree.get((int) Math.floor(index-1/2));
+			return tree.get((int) Math.floor((index-1)/2));
 			}
 			return null;
 		}
@@ -60,6 +60,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 			// TODO Auto-generated method stub
 			this.value=value;
 		}
+		
 	}
 
 	@Override
@@ -81,7 +82,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 	@Override
 	public void heapify(INode<T> node) {
 		// TODO Auto-generated method stub
-		if(size()==1)
+		if(size()==1||size()==0)
 		{
 			return;
 		}
@@ -96,7 +97,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 		{
 		largest = node;
 		}
-		if (r != null && r.getValue().compareTo(node.getValue())>0)
+		if (r != null && r.getValue().compareTo(largest.getValue())>0)
 		{
 		largest = r;
 		}
@@ -116,7 +117,8 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 			return null;
 		}
 		T root = getRoot().getValue();
-		tree.remove(0);
+		swap(tree.get(0),tree.get(size()-1));
+		tree.remove(size()-1);
 		heapify(getRoot());
 		return root ;
 	}
@@ -139,7 +141,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 		bubbleUp(node);
         }
 	    }
-	    System.out.println();
+	   
 	}
 
 	
@@ -174,15 +176,39 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 	public ArrayList<INode> getTree() {
 		return tree;
 	}
-	/*public void print ()
+/*	public void print ()
 	{
 		for (Iterator iterator = tree.iterator(); iterator.hasNext();) {
 			
-			  T type = (T) iterator.next(;
-			  System.out.println(type.toString());
+			  Node node =(Node) iterator.next();
+			  System.out.println(node.getValue()+">>>>"+node.index);
+		}
+		
+	}
+	public void print2 ()
+	{
+		for (Iterator iterator = tree.iterator(); iterator.hasNext();) {
+			
+			  Node node =(Node) iterator.next();
+			  System.out.println(node.index);
+		}
+		
+	}
+	public void print3 ()
+	{
+		for (Iterator iterator = tree.iterator(); iterator.hasNext();) {
+			
+			Node node =(Node) iterator.next();
+			  System.out.println(node.getValue()+">>>>"+node.index);
+			  System.out.println(2*node.index+1+"-----");
+			  System.out.println(tree.size()+"*****");
+			  System.out.println(node.getLeftChild().getValue());
+			  System.out.println(2*node.index+2+"-----");
+			  System.out.println(node.getRightChild().getValue());
+			  System.out.println();
+			  
 		}
 		
 	}*/
-	
 
 }

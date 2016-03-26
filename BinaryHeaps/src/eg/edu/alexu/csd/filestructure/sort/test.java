@@ -24,6 +24,10 @@ public class test {
   heap.insert(8);
   heap.insert(1);
   
+  System.out.println(heap.size());
+ 
+ 
+  
   /*IHeap<Integer>  heap2 = new Heap<Integer> ();
   heap2.insert(16);
   heap2.insert(14);
@@ -38,24 +42,24 @@ public class test {
   //heap.print();
   //heap.heapify(heap.getTree().get(1));
   
- /* int a = heap.extract();
+  int a = heap.extract();
   Assert.assertEquals(16,a);
-  heap.heapify(heap.getRoot());
   a = heap.extract();
   Assert.assertEquals(14,a);
-  heap.heapify(heap.getRoot());
   a = heap.extract();
   Assert.assertEquals(10,a);
-  System.out.println(heap.getRoot());
-  heap.heapify(heap.getRoot());
+  
   a = heap.extract();
-  Assert.assertEquals(8 , a);
-  heap.heapify(heap.getRoot());
+  Assert.assertEquals(9 , a);
+
+  a = heap.extract();
+  Assert.assertEquals(8,a);
+ 
   a = heap.extract();
   Assert.assertEquals(7,a);
   heap.heapify(heap.getRoot());
   a = heap.extract();
-  Assert.assertEquals(9,a);
+  Assert.assertEquals(4,a);
   heap.heapify(heap.getRoot());
   a = heap.extract();
   Assert.assertEquals(3,a);
@@ -64,10 +68,7 @@ public class test {
   Assert.assertEquals(2,a);
   heap.heapify(heap.getRoot());
   a = heap.extract();
-  Assert.assertEquals(4,a);
-  heap.heapify(heap.getRoot());
-  a = heap.extract();
-  Assert.assertEquals(1,a);*/
+  Assert.assertEquals(1,a);
   //Assert.assertEquals(heap, heap2);
  
  }
