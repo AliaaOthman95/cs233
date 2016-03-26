@@ -184,6 +184,23 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 	public ArrayList<INode> getTree() {
 		return tree;
 	}
+	public IHeap sort (ArrayList unordered)
+	{
+		int size = unordered.size();
+		build(unordered);
+		
+		for (int i = size-1; i >= 1; i--) {
+			
+			swap(tree.get(0),tree.get(i));
+			if(size()!=0)
+			{
+			setSize((size()-1));
+			};
+			heapify(tree.get(0));
+			
+		}
+		return this;
+	}
 	public void print ()
 	{
 		for (Iterator iterator = tree.iterator(); iterator.hasNext();) {

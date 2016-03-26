@@ -81,13 +81,18 @@ public class test {
 	 list.add(16);
 	 list.add(8);
 	 list.add(1);
-	 list.add(32);
-	// Heap h =(Heap) heap2.heapSort(list);
-	heap2.sortFast(list);
+	 list.add(25);
+	 list.add(13);
+	 list.add(15);
+	 list.add(45);
+	 list.add(2);
+	 list.add(4);
+	 Heap h =(Heap) heap2.heapSort(list);
+	//heap2.sortFast(list);
 	 //heap.sortSlow(list);
-	 for(int i=0;i<list.size();i++)System.out.println(list.get(i));
+	 //for(int i=0;i<list.size();i++)System.out.println(list.get(i));
 	 
-	// h.print();
+	 h.print();
 	 
  }
  

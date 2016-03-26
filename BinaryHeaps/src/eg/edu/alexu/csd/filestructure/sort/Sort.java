@@ -10,7 +10,7 @@ public class Sort<T extends Comparable<T>> implements ISort<T> {
 	@Override
 	public IHeap heapSort(ArrayList unordered) {
 	     Heap bHeap = new Heap();
-		int size = unordered.size();
+		/*int size = unordered.size();
 		bHeap.build(unordered);
 		
 		for (int i = size-1; i >= 1; i--) {
@@ -19,8 +19,9 @@ public class Sort<T extends Comparable<T>> implements ISort<T> {
 			bHeap.setSize(bHeap.size()-1);
 			bHeap.heapify((INode)bHeap.getTree().get(0));
 			
-		}
-		return bHeap;
+		}*/
+	   
+		return   bHeap.sort(unordered);
 	}
 
 	@Override
