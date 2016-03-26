@@ -8,10 +8,10 @@ import junit.framework.Assert;
 
 
 public class test {
-
- @Test
+	
+ /*@Test
  public void test1() {
-  
+	 
   Heap<Integer> heap = new Heap<Integer> ();
   heap.insert(16);
   heap.insert(4);
@@ -41,7 +41,7 @@ public class test {
   heap2.insert(1);*/
   //heap.print();
   //heap.heapify(heap.getTree().get(1));
-  
+  /*
   int a = heap.extract();
   Assert.assertEquals(16,a);
   a = heap.extract();
@@ -71,6 +71,25 @@ public class test {
   Assert.assertEquals(1,a);
   //Assert.assertEquals(heap, heap2);
  
+ }*/
+ @Test
+ public void test2() {
+	 Sort<Integer> heap2=new Sort<Integer>();
+	 ArrayList<Integer> list = new ArrayList<Integer>();
+	 list.add(4);
+	 list.add(3);
+	 list.add(16);
+	 list.add(8);
+	 list.add(1);
+	 list.add(32);
+	// Heap h =(Heap) heap2.heapSort(list);
+	heap2.sortFast(list);
+	 //heap.sortSlow(list);
+	 for(int i=0;i<list.size();i++)System.out.println(list.get(i));
+	 
+	// h.print();
+	 
  }
+ 
 
 }

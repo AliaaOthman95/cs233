@@ -5,17 +5,20 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class Sort<T extends Comparable<T>> implements ISort<T> {
-	private Heap bHeap = new Heap();
+	
 
 	@Override
 	public IHeap heapSort(ArrayList unordered) {
-		// TODO Auto-generated method stub
+	     Heap bHeap = new Heap();
 		int size = unordered.size();
 		bHeap.build(unordered);
-		for (int i = size; i > 2; i--) {
-			size--;
-			bHeap.swap((INode)bHeap.getTree().get(1),(INode)bHeap.getTree().get(i));
-			bHeap.heapify((INode)bHeap.getTree().get(1));
+		
+		for (int i = size-1; i >= 1; i--) {
+			
+			bHeap.swap((INode)bHeap.getTree().get(0),(INode)bHeap.getTree().get(i));
+			bHeap.setSize(bHeap.size()-1);
+			bHeap.heapify((INode)bHeap.getTree().get(0));
+			
 		}
 		return bHeap;
 	}
@@ -42,8 +45,8 @@ public class Sort<T extends Comparable<T>> implements ISort<T> {
 	@Override
 	public void sortFast(java.util.ArrayList<T> unordered) {
 		
-		int p =1;
-		int r = unordered.size();
+		int p =0;
+		int r = unordered.size()-1;
 		quickSort(unordered, p, r);
 	}
 
@@ -59,7 +62,7 @@ public class Sort<T extends Comparable<T>> implements ISort<T> {
 		if (p < r)
 		{
 		q = partition(unordered, p, r);
-		quickSort(unordered, p, q);
+		quickSort(unordered, p, q-1);
 		quickSort(unordered, q+1, r);
 		}
 
@@ -70,8 +73,8 @@ public class Sort<T extends Comparable<T>> implements ISort<T> {
 		
 		 T x = unordered.get(r); 
 		int i = p-1 ;
-		for (int j = p; j < r-1 ; j++) {
-			if ( unordered.get(r).compareTo(x) <= 0)
+		for (int j = p; j <= r-1 ; j++) {
+			if ( unordered.get(j).compareTo(x) <= 0)
 			{
 				i = i+1;
 				Collections.swap(unordered, i, j);

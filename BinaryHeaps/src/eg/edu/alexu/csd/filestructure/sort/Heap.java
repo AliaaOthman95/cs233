@@ -6,7 +6,12 @@ import java.util.Iterator;
 
 public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 	private ArrayList<INode> tree ;
-	 public Heap() {
+	private int size=0 ;
+	 public void setSize(int size) {
+		this.size = size;
+	}
+
+	public Heap() {
 	        tree = new ArrayList<>();
 	    }
 
@@ -76,7 +81,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 	@Override
 	public int size() {
 		// TODO Auto-generated method stub
-		return tree.size();
+		return size;
 	}
 
 	@Override
@@ -119,6 +124,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 		T root = getRoot().getValue();
 		swap(tree.get(0),tree.get(size()-1));
 		tree.remove(size()-1);
+		size--;
 		heapify(getRoot());
 		return root ;
 	}
@@ -132,12 +138,14 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
         	INode node = new Node(0);
         	node.setValue(element);
         	tree.add(node);
+        	size++;
         	
         }
         else{
 		INode node = new Node(size());
 		node.setValue(element);
 		tree.add(node);
+		size++;
 		bubbleUp(node);
         }
 	    }
@@ -167,7 +175,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 
 	public void bubbleUp(INode<T> node) {
         INode parent = node.getParent();
-        while (parent.getValue().compareTo(node.getValue()) <0) {
+        while (parent!= null &&parent.getValue().compareTo(node.getValue()) <0) {
             swap(parent, node);
             node = parent ;
             parent = node.getParent();
@@ -176,7 +184,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 	public ArrayList<INode> getTree() {
 		return tree;
 	}
-/*	public void print ()
+	public void print ()
 	{
 		for (Iterator iterator = tree.iterator(); iterator.hasNext();) {
 			
@@ -185,7 +193,7 @@ public class Heap <T extends Comparable<T>>  implements IHeap<T> {
 		}
 		
 	}
-	public void print2 ()
+	/*public void print2 ()
 	{
 		for (Iterator iterator = tree.iterator(); iterator.hasNext();) {
 			
