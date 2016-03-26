@@ -177,7 +177,7 @@ public class Heap<T extends Comparable<T>> implements IHeap<T> {
 		int size = unordered.size();
 		build(unordered);
          print();
-		for (int i = size - 1; i >= 1; i--) {
+		for (int i = size-1 ; i >= 1; i--) {
 
 			swap(tree.get(0), tree.get(i));
 
@@ -186,13 +186,8 @@ public class Heap<T extends Comparable<T>> implements IHeap<T> {
 			heapify(tree.get(0));
 
 		}
-		try {
-			return (IHeap) this.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
-			System.out.println("**");
-			return null;
-		}
+		setSize((size()));
+		return this;
 	}
 
 	public void print() {

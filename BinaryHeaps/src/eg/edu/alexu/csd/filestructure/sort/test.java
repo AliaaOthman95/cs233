@@ -77,7 +77,7 @@ public class test {
 	 Sort<Integer> heap2=new Sort<Integer>();
 	 ArrayList<Integer> list = new ArrayList<Integer>();
 	 list.add(4);
-	 /*list.add(3);
+	 list.add(3);
 	 list.add(16);
 	 list.add(8);
 	 list.add(1);
@@ -86,7 +86,7 @@ public class test {
 	 list.add(15);
 	 list.add(45);
 	 list.add(2);
-	 list.add(4);*/
+	 list.add(4);
 	 Heap h =(Heap) heap2.heapSort(list);
 	//heap2.sortFast(list);
 	 //heap.sortSlow(list);
