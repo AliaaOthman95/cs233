@@ -1,10 +1,10 @@
 package eg.edu.alexu.csd.filestructure.avl;
 
-public class MyAVL<T extends Comparable<T>> implements IAVLTree<T> {
+public class AVLTree<T extends Comparable<T>> implements IAVLTree<T> {
 	private static final int ALLOWED_IMBALANCE = 1;
 	private Node root;
 
-	public MyAVL() {
+	public AVLTree() {
 		this.root = null;
 	}
 
