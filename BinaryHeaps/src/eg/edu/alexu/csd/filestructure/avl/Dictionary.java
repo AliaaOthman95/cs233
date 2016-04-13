@@ -15,8 +15,7 @@ public class Dictionary implements IDictionary {
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			String sCurrentLine;
 			while ((sCurrentLine = br.readLine()) != null) {
-				myDictionary.insert(sCurrentLine);
-				this.size++;
+				insert(sCurrentLine);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
