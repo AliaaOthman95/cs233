@@ -8,6 +8,7 @@ import java.io.IOException;
 public class Dictionary implements IDictionary {
 
 	private AVLTree<String> myDictionary = new AVLTree<String>();
+	private int size = 0;
 
 	@Override
 	public void load(File file) {
@@ -27,6 +28,7 @@ public class Dictionary implements IDictionary {
 			return false;
 		}
 		myDictionary.insert(word);
+		this.size++;
 		return true;
 	}
 
@@ -40,12 +42,13 @@ public class Dictionary implements IDictionary {
 
 	@Override
 	public boolean delete(String word) {
+		this.size--;
 		return myDictionary.delete(word);
 	}
 
 	@Override
 	public int size() {
-		return myDictionary.countNodes(myDictionary.getTree());
+		return this.size;
 	}
 
 	@Override

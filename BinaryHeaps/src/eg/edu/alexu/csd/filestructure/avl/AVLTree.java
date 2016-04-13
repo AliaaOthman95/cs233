@@ -158,7 +158,6 @@ public class AVLTree<T extends Comparable<T>> implements IAVLTree<T> {
 		root = remove(key, root);
 		int after = countNodes(root);
 		if (after - before == 0) {
-
 			return false;
 		}
 		return true;
