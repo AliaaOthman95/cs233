@@ -16,6 +16,7 @@ public class Dictionary implements IDictionary {
 			String sCurrentLine;
 			while ((sCurrentLine = br.readLine()) != null) {
 				myDictionary.insert(sCurrentLine);
+				this.size++;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
