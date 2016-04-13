@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class Dictionary implements IDictionary {
 
-	private AVLTree<String> myDictionary = new AVLTree<String>();
+	private MyAVL<String> myDictionary = new MyAVL<String>();
 	@Override
 	public void load(File file) {
 		// TODO Auto-generated method stub
