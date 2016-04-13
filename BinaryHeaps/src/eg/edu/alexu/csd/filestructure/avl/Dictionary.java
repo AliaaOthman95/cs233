@@ -42,8 +42,11 @@ public class Dictionary implements IDictionary {
 
 	@Override
 	public boolean delete(String word) {
-		this.size--;
-		return myDictionary.delete(word);
+		if (myDictionary.delete(word)) { 
+			this.size--;
+			return true;
+		}
+		return false;
 	}
 
 	@Override
