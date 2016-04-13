@@ -1,23 +1,24 @@
 package eg.edu.alexu.csd.filestructure.avl;
 
+@SuppressWarnings("unchecked")
 public class AVLTree<T extends Comparable<T>> implements IAVLTree<T> {
 	private static final int ALLOWED_IMBALANCE = 1;
-	private Node root;
+	private Node<T> root;
 
 	public AVLTree() {
 		this.root = null;
 	}
 
-	public class Node<T extends Comparable<T>> implements INode<T> {
-		private INode left, right;
-		private T  value;
+	public class Node<A extends Comparable<T>> implements INode<T> {
+		private INode<T> left, right;
+		private T value;
 		private int height;
 
 		Node(T value) {
 			this(value, null, null);
 		}
 
-		Node(T element, INode lt, INode rt) {
+		Node(T element, INode<T> lt, INode<T> rt) {
 			value = element;
 			left = lt;
 			right = rt;
@@ -25,34 +26,31 @@ public class AVLTree<T extends Comparable<T>> implements IAVLTree<T> {
 		}
 
 		@Override
-		public INode getLeftChild() {
-			// TODO Auto-generated method stub
+		public INode<T> getLeftChild() {
 			return left;
 		}
 
 		@Override
-		public INode getRightChild() {
-			// TODO Auto-generated method stub
+		public INode<T> getRightChild() {
 			return right;
 		}
 
 		@Override
 		public T getValue() {
-			
+
 			return value;
 		}
 
 		@Override
 		public void setValue(T value) {
-			// TODO Auto-generated method stub
 			this.value = value;
 		}
 
-		public void setLeft(INode left) {
+		public void setLeft(INode<T> left) {
 			this.left = left;
 		}
 
-		public void setRight(INode right) {
+		public void setRight(INode<T> right) {
 			this.right = right;
 		}
 
@@ -68,32 +66,25 @@ public class AVLTree<T extends Comparable<T>> implements IAVLTree<T> {
 
 	@Override
 	public void insert(T key) {
-		if(key== null)
-		{
-			return ;
+		if (key == null) {
+			return;
 		}
-		root = insert(key, root);
-
+		root = (Node<T>) insert(key, root);
 	}
 
-	public Node insert(T key, Node<T> root) {
+	public INode<T> insert(T key, Node<T> root) {
 
 		if (root == null) {
-			root = new Node(key);
+			root = new Node<T>(key);
 		} else {
 			int compareResult = key.compareTo(root.getValue());
 			if (compareResult < 0) {
 
-				root.setLeft(insert(key, (Node) root.getLeftChild()));
-			}
-
-			else if (compareResult >= 0) {
-
-				root.setRight(insert(key, (Node) root.getRightChild()));
-
+				root.setLeft(insert(key, (Node<T>) root.getLeftChild()));
+			} else if (compareResult >= 0) {
+				root.setRight(insert(key, (Node<T>) root.getRightChild()));
 			}
 		}
-
 		return balance(root);
 
 	}
@@ -102,25 +93,22 @@ public class AVLTree<T extends Comparable<T>> implements IAVLTree<T> {
 
 		if (t == null)
 			return t;
-
-		if (height((Node) t.getLeftChild()) - height((Node<T>) t.getRightChild()) > ALLOWED_IMBALANCE)
-			if (height((Node) t.getLeftChild().getLeftChild()) >= height((Node<T>) t
-					.getLeftChild().getRightChild())) {
+		if (height((Node<T>) t.getLeftChild()) - height((Node<T>) t.getRightChild()) > ALLOWED_IMBALANCE)
+			if (height((Node<T>) t.getLeftChild().getLeftChild()) >= height(
+					(Node<T>) t.getLeftChild().getRightChild())) {
 				t = rotateWithLeftChild(t);
 			} else {
 				t = doubleWithLeftChild(t);
 			}
-		else if (height((Node) t.getRightChild())
-				- height((Node) t.getLeftChild()) > ALLOWED_IMBALANCE) {
-			if (height((Node) t.getRightChild().getRightChild()) >= height((Node) t
-					.getRightChild().getLeftChild())) {
+		else if (height((Node<T>) t.getRightChild()) - height((Node<T>) t.getLeftChild()) > ALLOWED_IMBALANCE) {
+			if (height((Node<T>) t.getRightChild().getRightChild()) >= height(
+					(Node<T>) t.getRightChild().getLeftChild())) {
 				t = rotateWithRightChild(t);
 			} else {
 				t = doubleWithRightChild(t);
 			}
 		}
-		t.setHeight( Math.max(height((Node) t.getLeftChild()),
-				height((Node) t.getRightChild())) + 1);
+		t.setHeight(Math.max(height((Node<T>) t.getLeftChild()), height((Node<T>) t.getRightChild())) + 1);
 		return t;
 
 	}
@@ -132,41 +120,35 @@ public class AVLTree<T extends Comparable<T>> implements IAVLTree<T> {
 
 	private Node<T> rotateWithLeftChild(Node<T> k2) {
 
-		Node k1 = (Node) k2.getLeftChild();
+		Node<T> k1 = (Node<T>) k2.getLeftChild();
 		k2.setLeft(k1.getRightChild());
 		k1.setRight(k2);
-		k2.setHeight(Math.max(height((Node) k2.getLeftChild()),
-				height((Node) k2.getRightChild())) + 1);
-		k1.setHeight(Math.max(height((Node) k1.getLeftChild()), k2.getHeight()) + 1);
+		k2.setHeight(Math.max(height((Node<T>) k2.getLeftChild()), height((Node<T>) k2.getRightChild())) + 1);
+		k1.setHeight(Math.max(height((Node<T>) k1.getLeftChild()), k2.getHeight()) + 1);
 		return k1;
 
 	}
 
 	private Node<T> rotateWithRightChild(Node<T> k1) {
-		// TODO Auto-generated method stub
-		Node k2 = (Node) k1.getRightChild();
+		Node<T> k2 = (Node<T>) k1.getRightChild();
 		k1.setRight(k2.left);
 		k2.setLeft(k1);
-		k1.setHeight(Math.max(height((Node) k1.getLeftChild()),
-				height((Node) k1.getRightChild())) + 1);
-		k2.setHeight(Math.max(height((Node) k2.getRightChild()), k1.getHeight()) + 1);
+		k1.setHeight(Math.max(height((Node<T>) k1.getLeftChild()), height((Node<T>) k1.getRightChild())) + 1);
+		k2.setHeight(Math.max(height((Node<T>) k2.getRightChild()), k1.getHeight()) + 1);
 		return k2;
 	}
 
 	private Node<T> doubleWithLeftChild(Node<T> k3) {
-		// TODO Auto-generated method stub
-		k3.setLeft(rotateWithRightChild((Node) k3.getLeftChild()));
+		k3.setLeft(rotateWithRightChild((Node<T>) k3.getLeftChild()));
 		return rotateWithLeftChild(k3);
 	}
 
 	private Node<T> doubleWithRightChild(Node<T> k1) {
-		// TODO Auto-generated method stub
-		k1.setRight(rotateWithLeftChild((Node) k1.getRightChild()));
+		k1.setRight(rotateWithLeftChild((Node<T>) k1.getRightChild()));
 		return rotateWithRightChild(k1);
 	}
 
 	private int height(Node<T> node) {
-		// TODO Auto-generated method stub
 		return node == null ? -1 : node.getHeight();
 	}
 
@@ -175,14 +157,11 @@ public class AVLTree<T extends Comparable<T>> implements IAVLTree<T> {
 		int before = countNodes(root);
 		root = remove(key, root);
 		int after = countNodes(root);
-		if(after-before ==0)
-		{
-		
+		if (after - before == 0) {
+
 			return false;
 		}
-
 		return true;
-
 	}
 
 	private Node<T> remove(T key, Node<T> t) {
@@ -192,16 +171,15 @@ public class AVLTree<T extends Comparable<T>> implements IAVLTree<T> {
 		int compareResult = key.compareTo((T) t.getValue());
 
 		if (compareResult < 0) {
-			t.setLeft(remove(key, (Node) t.getLeftChild()));
+			t.setLeft(remove(key, (Node<T>) t.getLeftChild()));
 		} else if (compareResult > 0) {
-			t.setRight(remove(key, (Node) t.getRightChild()));
+			t.setRight(remove(key, (Node<T>) t.getRightChild()));
 		} else if (t.left != null && t.right != null) // Two children
 		{
 			t.setValue(findMin(t.getRightChild()).getValue());
-			t.right = remove((T) t.getValue(), (Node) t.getRightChild());
+			t.right = remove((T) t.getValue(), (Node<T>) t.getRightChild());
 		} else {
-			t = (t.getLeftChild() != null) ? (Node) t.getLeftChild() : (Node) t
-					.getRightChild();
+			t = (t.getLeftChild() != null) ? (Node<T>) t.getLeftChild() : (Node<T>) t.getRightChild();
 		}
 		return balance(t);
 	}
@@ -210,7 +188,7 @@ public class AVLTree<T extends Comparable<T>> implements IAVLTree<T> {
 		if (root == null) {
 			return null;
 		} else if (root.getLeftChild() == null) {
-			return  root;
+			return root;
 		}
 		return findMin(root.getLeftChild());
 	}
@@ -218,8 +196,7 @@ public class AVLTree<T extends Comparable<T>> implements IAVLTree<T> {
 	@Override
 	public boolean search(T key) {
 
-		if(key==null)
-		{
+		if (key == null) {
 			return false;
 		}
 		return search(key, root);
@@ -230,9 +207,9 @@ public class AVLTree<T extends Comparable<T>> implements IAVLTree<T> {
 		while ((r != null) && !found) {
 			T rvalue = (T) r.getValue();
 			if (val.compareTo(rvalue) < 0) {
-				r = (Node) r.getLeftChild();
+				r = (Node<T>) r.getLeftChild();
 			} else if (val.compareTo(rvalue) > 0) {
-				r = (Node) r.getRightChild();
+				r = (Node<T>) r.getRightChild();
 			} else {
 				found = true;
 				break;
@@ -241,30 +218,26 @@ public class AVLTree<T extends Comparable<T>> implements IAVLTree<T> {
 		}
 		return found;
 	}
-	public int countNodes(INode r)
-    {
-        if (r == null)
-            return 0;
-        else
-        {
-            int l = 1;
-            l += countNodes(r.getLeftChild());
-            l += countNodes(r.getRightChild());
-            return l;
-        }
-    }
+
+	public int countNodes(INode<T> r) {
+		if (r == null)
+			return 0;
+		else {
+			int l = 1;
+			l += countNodes(r.getLeftChild());
+			l += countNodes(r.getRightChild());
+			return l;
+		}
+	}
 
 	@Override
 	public int height() {
-		// TODO Auto-generated method stub
-	
-		return height(root)+1;
-		
+		return height(root) + 1;
+
 	}
 
 	@Override
 	public INode<T> getTree() {
-		// TODO Auto-generated method stub
 		return root;
 	}
 
