@@ -162,7 +162,7 @@ public class GraphImp implements IGraph {
 
 	public void initialize(int src, int[] distances) {
 
-		for (int j = 0; j < distances.length; j++) {
+		for (int j = 0; j < v; j++) {
 			distances[j] = Integer.MAX_VALUE / 2;
 		}
 
