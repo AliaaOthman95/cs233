@@ -120,11 +120,11 @@ public class GraphImp implements IGraph {
 			sequence.add(u);
 			for (int j = 0; j < v; j++)
 
-				if (!included[v]
+				if (!included[j]
 						&& distances[u] != Integer.MAX_VALUE
 						&& distances[u]
-								+ Adjacency_List.get(u).get(j).getWeight() < distances[v])
-					distances[v] = distances[u]
+								+ Adjacency_List.get(u).get(j).getWeight() < distances[j])
+					distances[j] = distances[u]
 							+ Adjacency_List.get(u).get(j).getWeight();
 		}
 
