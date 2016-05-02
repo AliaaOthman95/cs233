@@ -5,13 +5,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class GraphImp implements IGraph {
 
 	private int v, e;
-	private Map<Integer, ArrayList<Edge>> Adjacency_List;
-    private int distance ;
+	private Map<Integer, ArrayList<Edge>> Adjacency_List = new HashMap<Integer, ArrayList<Edge>>();;
+	private int distance;
+
 	@Override
 	public void readGraph(File file) {
 
@@ -23,25 +25,28 @@ public class GraphImp implements IGraph {
 
 			br = new BufferedReader(new FileReader(file));
 			sCurrentLine = br.readLine();
-			String[] numbers = sCurrentLine.split(" ");
-			v = Integer.parseInt(numbers[0]);
-			e = Integer.parseInt(numbers[1]);
+			if (sCurrentLine != null) {
+				sCurrentLine = br.readLine();
+				String[] numbers = sCurrentLine.split(" ");
+				v = Integer.parseInt(numbers[0]);
+				e = Integer.parseInt(numbers[1]);
 
-			for (int i = 0; i < v; i++) {
-				Adjacency_List.put(i, new ArrayList<Edge>());
+				for (int i = 0; i < v; i++) {
+					Adjacency_List.put(i, new ArrayList<Edge>());
 
-			}
-			while ((sCurrentLine = br.readLine()) != null) {
-				numbers = sCurrentLine.split(" ");
-				if (Integer.parseInt(numbers[1]) < v
-						&& Integer.parseInt(numbers[0]) < v) {
-					Edge d = new Edge(Integer.parseInt(numbers[1]),
-							Integer.parseInt(numbers[2]));
-					ArrayList<Edge> list = Adjacency_List.get(Integer
-							.parseInt(numbers[0]));
+				}
+				while ((sCurrentLine = br.readLine()) != null) {
+					numbers = sCurrentLine.split(" ");
+					if (Integer.parseInt(numbers[1]) < v
+							&& Integer.parseInt(numbers[0]) < v) {
+						Edge d = new Edge(Integer.parseInt(numbers[1]),
+								Integer.parseInt(numbers[2]));
+						ArrayList<Edge> list = Adjacency_List.get(Integer
+								.parseInt(numbers[0]));
 
-					list.add(d);
-					Adjacency_List.put(Integer.parseInt(numbers[0]), list);
+						list.add(d);
+						Adjacency_List.put(Integer.parseInt(numbers[0]), list);
+					}
 				}
 			}
 
@@ -86,26 +91,23 @@ public class GraphImp implements IGraph {
 
 	@Override
 	public void runDijkstra(int src, int[] distances) {
-		
 
 	}
 
 	@Override
 	public ArrayList<Integer> getDijkstraProcessedOrder() {
-		
+
 		return null;
 	}
 
 	@Override
 	public boolean runBellmanFord(int src, int[] distances) {
-		
+
 		return false;
 	}
-	
-	
-	public void initialize()
-	{
-		
+
+	public void initialize() {
+
 	}
 
 }
