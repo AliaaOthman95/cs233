@@ -18,7 +18,54 @@ public class GraphImp implements IGraph {
 	@Override
 	public void readGraph(File file) {
 
-		BufferedReader br = null;
+		 if (file != null && file.isFile()) {
+
+			   try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			    String sCurrentLine = br.readLine();
+			    if (sCurrentLine != null) {
+			     String[] line = sCurrentLine.split(" ");
+			     if (line[0] != null && line[1] != null) {
+			      v = Integer.parseInt(line[0]);
+			      e= Integer.parseInt(line[1]);
+			     } else {
+			      throw new RuntimeException();
+			     }
+			     for (int i = 0; i < v; i++) {
+			    	 Adjacency_List.put(i, new ArrayList<Edge>());
+			     }
+			     int counter = 0;
+			     while ((sCurrentLine = br.readLine()) != null) {
+			      line = sCurrentLine.split(" ");
+			      if (line[0] != null && line[1] != null && line[2] != null) {
+			       int source = Integer.parseInt(line[0]);
+			       int destination = Integer.parseInt(line[1]);
+			       int weight = Integer.parseInt(line[2]);
+			       if (source <v && destination < v) {
+			        ArrayList<Edge> slist = Adjacency_List.get(source);
+			        slist.add(new Edge(source,destination, weight));
+			        Adjacency_List.put(source, slist);
+			       }
+			       counter++;
+			      } else {
+			       throw new RuntimeException();
+			      }
+			     }
+
+			     if (counter != e) {
+			      throw new RuntimeException();
+			     }
+
+			    }
+			   } catch (IOException e) {
+			    e.printStackTrace();
+			    throw new RuntimeException();
+			   }
+			  } else {
+			   throw new RuntimeException();
+			  }
+
+			 
+		/*BufferedReader br = null;
 
 		try {
 
@@ -78,7 +125,7 @@ public class GraphImp implements IGraph {
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
-		}
+		}*/
 
 	}
 
