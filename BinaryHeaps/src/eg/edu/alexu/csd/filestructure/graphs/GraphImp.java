@@ -7,11 +7,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 public class GraphImp implements IGraph {
 
 	private int v, e;
 	private Map<Integer, ArrayList<Edge>> Adjacency_List = new HashMap<Integer, ArrayList<Edge>>();;
+    private ArrayList<Integer> sequence = new ArrayList <Integer>();
 
 	@Override
 	public void readGraph(File file) {
@@ -107,13 +109,32 @@ public class GraphImp implements IGraph {
 
 	@Override
 	public void runDijkstra(int src, int[] distances) {
+       
+		
+		boolean included[] = new boolean[v];
+		initialize(src, distances);
+		for (int i = 0; i < v - 1; i++) {
+
+			int u = minDistance(distances, included);
+
+			included[u] = true;
+            sequence.add(u);
+			for (int j = 0; j < v; j++)
+
+				if (!included[v]
+						&& distances[u] != Integer.MAX_VALUE
+						&& distances[u]
+								+ Adjacency_List.get(u).get(j).getWeight() < distances[v])
+					distances[v] = distances[u]
+							+ Adjacency_List.get(u).get(j).getWeight();
+		}
 
 	}
 
 	@Override
 	public ArrayList<Integer> getDijkstraProcessedOrder() {
 
-		return null;
+		return sequence;
 	}
 
 	@Override
@@ -163,5 +184,18 @@ public class GraphImp implements IGraph {
 		}
 		return true;
 
+	}
+
+	public int minDistance(int distances[], boolean included[]) {
+
+		int min = Integer.MAX_VALUE / 2, min_index = -1;
+
+		for (int i = 0; i < v; i++)
+			if (included[i] == false && distances[v] <= min) {
+				min = distances[v];
+				min_index = v;
+			}
+
+		return min_index;
 	}
 }
