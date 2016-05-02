@@ -110,22 +110,25 @@ public class GraphImp implements IGraph {
 	@Override
 	public void runDijkstra(int src, int[] distances) {
 
-		boolean included[] = new boolean[v];
+		
+		int V = getVertices().size();
+		boolean included[] = new boolean[V];
 		initialize(src, distances);
-		for (int i = 0; i < v - 1; i++) {
+		for (int i = 0; i < V - 1; i++) {
 
 			int u = minDistance(distances, included);
 
 			included[u] = true;
 			sequence.add(u);
-			for (int j = 0; j < v; j++)
+			for (int j = 0; j < V; j++)
 
 				if (!included[j]
-						&& distances[u] != Integer.MAX_VALUE/2
+						&& distances[u] != Integer.MAX_VALUE / 2
 						&& distances[u]
-								+ Adjacency_List.get(u).get(j).getWeight() < distances[j])
+								+ Adjacency_List.get(u).get(j).getWeight() < distances[j]) {
 					distances[j] = distances[u]
 							+ Adjacency_List.get(u).get(j).getWeight();
+				}
 		}
 
 	}
