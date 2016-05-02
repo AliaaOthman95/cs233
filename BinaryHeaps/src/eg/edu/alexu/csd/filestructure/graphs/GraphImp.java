@@ -26,32 +26,48 @@ public class GraphImp implements IGraph {
 			br = new BufferedReader(new FileReader(file));
 			sCurrentLine = br.readLine();
 			if (sCurrentLine != null) {
-				sCurrentLine = br.readLine();
 				String[] numbers = sCurrentLine.split(" ");
-				v = Integer.parseInt(numbers[0]);
-				e = Integer.parseInt(numbers[1]);
+				try {
+					v = Integer.parseInt(numbers[0]);
+					e = Integer.parseInt(numbers[1]);
+
+				} catch (Exception e) {
+					throw new RuntimeException();
+				}
 
 				for (int i = 0; i < v; i++) {
 					Adjacency_List.put(i, new ArrayList<Edge>());
 
 				}
+				int counter = 0;
 				while ((sCurrentLine = br.readLine()) != null) {
+					counter++;
 					numbers = sCurrentLine.split(" ");
-					if (Integer.parseInt(numbers[1]) < v
-							&& Integer.parseInt(numbers[0]) < v) {
-						Edge d = new Edge(Integer.parseInt(numbers[1]),
-								Integer.parseInt(numbers[2]));
-						ArrayList<Edge> list = Adjacency_List.get(Integer
-								.parseInt(numbers[0]));
+					try {
+						if (Integer.parseInt(numbers[1]) < v
+								&& Integer.parseInt(numbers[0]) < v) {
+							Edge d = new Edge(Integer.parseInt(numbers[1]),
+									Integer.parseInt(numbers[2]));
+							ArrayList<Edge> list = Adjacency_List.get(Integer
+									.parseInt(numbers[0]));
 
-						list.add(d);
-						Adjacency_List.put(Integer.parseInt(numbers[0]), list);
+							list.add(d);
+							Adjacency_List.put(Integer.parseInt(numbers[0]),
+									list);
+						}
+
+					} catch (Exception e) {
+						throw new RuntimeException();
 					}
+
 				}
+				if (counter < e)
+					throw new RuntimeException();
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
 		} finally {
 			try {
 				if (br != null)
