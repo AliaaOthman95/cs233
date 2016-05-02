@@ -42,7 +42,7 @@ public class GraphImp implements IGraph {
 				}
 				int counter = 0;
 				while ((sCurrentLine = br.readLine()) != null) {
-					counter++;
+					
 					numbers = sCurrentLine.split(" ");
 					try {
 						if (Integer.parseInt(numbers[1]) < v
@@ -56,6 +56,7 @@ public class GraphImp implements IGraph {
 							list.add(d);
 							Adjacency_List.put(Integer.parseInt(numbers[0]),
 									list);
+							counter++;
 						}
 
 					} catch (Exception e) {
@@ -110,17 +111,15 @@ public class GraphImp implements IGraph {
 	@Override
 	public void runDijkstra(int src, int[] distances) {
 
-		
-		int V = getVertices().size();
-		boolean included[] = new boolean[V];
+		boolean included[] = new boolean[v];
 		initialize(src, distances);
-		for (int i = 0; i < V - 1; i++) {
+		for (int i = 0; i < v - 1; i++) {
 
 			int u = minDistance(distances, included);
 
 			included[u] = true;
 			sequence.add(u);
-			for (int j = 0; j < V; j++)
+			for (int j = 0; j < v; j++)
 
 				if (!included[j]
 						&& distances[u] != Integer.MAX_VALUE / 2
