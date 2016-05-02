@@ -21,7 +21,7 @@ public class GraphImp implements IGraph {
 
 			String sCurrentLine;
 
-			br = new BufferedReader(new FileReader("C:\\testing.txt"));
+			br = new BufferedReader(new FileReader(file));
 			sCurrentLine = br.readLine();
 			String[] numbers = sCurrentLine.split(" ");
 			v = Integer.parseInt(numbers[0]);
