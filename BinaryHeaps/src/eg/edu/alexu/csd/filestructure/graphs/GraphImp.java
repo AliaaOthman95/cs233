@@ -12,7 +12,6 @@ public class GraphImp implements IGraph {
 
 	private int v, e;
 	private Map<Integer, ArrayList<Edge>> Adjacency_List = new HashMap<Integer, ArrayList<Edge>>();;
-	private int distance;
 
 	@Override
 	public void readGraph(File file) {
@@ -46,7 +45,8 @@ public class GraphImp implements IGraph {
 					try {
 						if (Integer.parseInt(numbers[1]) < v
 								&& Integer.parseInt(numbers[0]) < v) {
-							Edge d = new Edge(Integer.parseInt(numbers[1]),
+							Edge d = new Edge(Integer.parseInt(numbers[0]),
+									Integer.parseInt(numbers[1]),
 									Integer.parseInt(numbers[2]));
 							ArrayList<Edge> list = Adjacency_List.get(Integer
 									.parseInt(numbers[0]));
@@ -99,7 +99,7 @@ public class GraphImp implements IGraph {
 
 		ArrayList<Integer> neighbour = new ArrayList<Integer>();
 		for (int i = 0; i < Adjacency_List.get(v).size(); i++) {
-			neighbour.add(Adjacency_List.get(v).get(i).getNode());
+			neighbour.add(Adjacency_List.get(v).get(i).getV());
 		}
 
 		return neighbour;
@@ -119,11 +119,49 @@ public class GraphImp implements IGraph {
 	@Override
 	public boolean runBellmanFord(int src, int[] distances) {
 
-		return false;
+		initialize(src, distances);
+
+		for (int i = 0; i < v - 1; i++) {
+			for (int j = 0; j < Adjacency_List.size(); j++) {
+				for (Edge edge : Adjacency_List.get(j)) {
+					int u = edge.getU();
+					int v = edge.getV();
+					// relax the edge
+					if (distances[u] + edge.getWeight() < distances[v]) {
+						distances[v] = distances[u] + edge.getWeight();
+
+					}
+				}
+			}
+		}
+
+		return checkCycles(distances);
 	}
 
-	public void initialize() {
+	public void initialize(int src, int[] distances) {
+		distances = new int[v];
+		for (int j = 0; j < distances.length; j++) {
+			distances[j] = Integer.MAX_VALUE / 2;
+		}
+
+		distances[src] = 0;
 
 	}
 
+	public boolean checkCycles(int[] distances) {
+
+		for (int j = 0; j < Adjacency_List.size(); j++) {
+			for (Edge edge : Adjacency_List.get(j)) {
+				int u = edge.getU();
+				int v = edge.getV();
+				if (distances[u] + edge.getWeight() < distances[v]) {
+
+					return false;
+				}
+
+			}
+		}
+		return true;
+
+	}
 }
