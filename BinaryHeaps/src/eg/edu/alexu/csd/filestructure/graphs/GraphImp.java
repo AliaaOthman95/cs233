@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class GraphImp implements IGraph {
 
 	private int v, e;
 	private Map<Integer, ArrayList<Edge>> Adjacency_List = new HashMap<Integer, ArrayList<Edge>>();;
 	private ArrayList<Integer> sequence = new ArrayList<Integer>();
+	ArrayList<Integer> vertices = new ArrayList<Integer>();
 
 	@Override
 	public void readGraph(File file) {
@@ -42,7 +42,7 @@ public class GraphImp implements IGraph {
 				}
 				int counter = 0;
 				while ((sCurrentLine = br.readLine()) != null) {
-					
+
 					numbers = sCurrentLine.split(" ");
 					try {
 						if (Integer.parseInt(numbers[1]) < v
@@ -56,6 +56,14 @@ public class GraphImp implements IGraph {
 							list.add(d);
 							Adjacency_List.put(Integer.parseInt(numbers[0]),
 									list);
+							if (!vertices
+									.contains(Integer.parseInt(numbers[0]))) {
+								vertices.add(Integer.parseInt(numbers[0]));
+							}
+							if (!vertices
+									.contains(Integer.parseInt(numbers[1]))) {
+								vertices.add(Integer.parseInt(numbers[1]));
+							}
 							counter++;
 						}
 
@@ -90,10 +98,10 @@ public class GraphImp implements IGraph {
 
 	@Override
 	public ArrayList<Integer> getVertices() {
-		ArrayList<Integer> vertices = new ArrayList<Integer>();
-		for (int i = 0; i < v; i++) {
-			vertices.add(i);
-		}
+
+		// for (int i = 0; i < v; i++) {
+		// vertices.add(i);
+		// }
 		return vertices;
 	}
 
@@ -111,16 +119,16 @@ public class GraphImp implements IGraph {
 	@Override
 	public void runDijkstra(int src, int[] distances) {
 
-		boolean included[] = new boolean[v];
+		int V = getVertices().size();
+		boolean included[] = new boolean[distances.length];
 		initialize(src, distances);
-		for (int i = 0; i < v - 1; i++) {
+		for (int i = 0; i < V - 1; i++) {
 
 			int u = minDistance(distances, included);
 
 			included[u] = true;
 			sequence.add(u);
-			for (int j = 0; j < v; j++)
-			{
+			for (int j = 0; j < Adjacency_List.get(u).size(); j++) {
 
 				if (!included[j]
 						&& distances[u] != (Integer.MAX_VALUE / 2)
@@ -164,7 +172,7 @@ public class GraphImp implements IGraph {
 
 	public void initialize(int src, int[] distances) {
 
-		for (int j = 0; j < v; j++) {
+		for (int j = 0; j < distances.length; j++) {
 			distances[j] = Integer.MAX_VALUE / 2;
 		}
 
@@ -193,7 +201,7 @@ public class GraphImp implements IGraph {
 
 		int min = (Integer.MAX_VALUE / 2), min_index = -1;
 
-		for (int i = 0; i < v; i++)
+		for (int i = 0; i < distances.length; i++)
 			if (included[i] == false && distances[i] <= min) {
 				min = distances[i];
 				min_index = i;
