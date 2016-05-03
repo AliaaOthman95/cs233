@@ -1,4 +1,5 @@
- package eg.edu.alexu.csd.filestructure.graphs;
+package eg.edu.alexu.csd.filestructure.graphs;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -7,15 +8,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
+
 public class GraphImp implements IGraph {
+
 	private int v, e;
 	private Map<Integer, ArrayList<Edge>> Adjacency_List = new HashMap<Integer, ArrayList<Edge>>();;
 	private ArrayList<Integer> sequence = new ArrayList<Integer>();
+
 	@Override
 	public void readGraph(File file) {
+
 		BufferedReader br = null;
+
 		try {
+
 			String sCurrentLine;
+
 			br = new BufferedReader(new FileReader(file));
 			sCurrentLine = br.readLine();
 			if (sCurrentLine != null) {
@@ -23,11 +31,14 @@ public class GraphImp implements IGraph {
 				try {
 					v = Integer.parseInt(numbers[0]);
 					e = Integer.parseInt(numbers[1]);
+
 				} catch (Exception e) {
 					throw new RuntimeException();
 				}
+
 				for (int i = 0; i < v; i++) {
 					Adjacency_List.put(i, new ArrayList<Edge>());
+
 				}
 				int counter = 0;
 				while ((sCurrentLine = br.readLine()) != null) {
@@ -41,18 +52,22 @@ public class GraphImp implements IGraph {
 									Integer.parseInt(numbers[2]));
 							ArrayList<Edge> list = Adjacency_List.get(Integer
 									.parseInt(numbers[0]));
+
 							list.add(d);
 							Adjacency_List.put(Integer.parseInt(numbers[0]),
 									list);
 							counter++;
 						}
+
 					} catch (Exception e) {
 						throw new RuntimeException();
 					}
+
 				}
 				if (counter < e)
 					throw new RuntimeException();
 			}
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException();
@@ -64,11 +79,15 @@ public class GraphImp implements IGraph {
 				ex.printStackTrace();
 			}
 		}
+
 	}
+
 	@Override
 	public int size() {
+
 		return e;
 	}
+
 	@Override
 	public ArrayList<Integer> getVertices() {
 		ArrayList<Integer> vertices = new ArrayList<Integer>();
@@ -77,40 +96,53 @@ public class GraphImp implements IGraph {
 		}
 		return vertices;
 	}
+
 	@Override
 	public ArrayList<Integer> getNeighbors(int v) {
+
 		ArrayList<Integer> neighbour = new ArrayList<Integer>();
 		for (int i = 0; i < Adjacency_List.get(v).size(); i++) {
 			neighbour.add(Adjacency_List.get(v).get(i).getV());
 		}
+
 		return neighbour;
 	}
+
 	@Override
 	public void runDijkstra(int src, int[] distances) {
+
 		boolean included[] = new boolean[v];
 		initialize(src, distances);
 		for (int i = 0; i < v - 1; i++) {
+
 			int u = minDistance(distances, included);
+
 			included[u] = true;
 			sequence.add(u);
-			for (int j = 0; j < v; j++){
+			for (int j = 0; j < v; j++)
+
 				if (!included[j]
-						&& distances[u] != Integer.MAX_VALUE / 2
+						&& distances[u] != (Integer.MAX_VALUE / 2)
 						&& distances[u]
 								+ Adjacency_List.get(u).get(j).getWeight() < distances[j]) {
 					distances[j] = distances[u]
 							+ Adjacency_List.get(u).get(j).getWeight();
 				}
-			}
 		}
+
 	}
+
 	@Override
 	public ArrayList<Integer> getDijkstraProcessedOrder() {
+
 		return sequence;
 	}
+
 	@Override
 	public boolean runBellmanFord(int src, int[] distances) {
+
 		initialize(src, distances);
+
 		for (int i = 0; i < v - 1; i++) {
 			for (int j = 0; j < Adjacency_List.size(); j++) {
 				for (Edge edge : Adjacency_List.get(j)) {
@@ -119,37 +151,52 @@ public class GraphImp implements IGraph {
 					// relax the edge
 					if (distances[u] + edge.getWeight() < distances[v]) {
 						distances[v] = distances[u] + edge.getWeight();
+
 					}
 				}
 			}
 		}
+
 		return checkCycles(distances);
 	}
+
 	public void initialize(int src, int[] distances) {
+
 		for (int j = 0; j < v; j++) {
 			distances[j] = Integer.MAX_VALUE / 2;
 		}
+
 		distances[src] = 0;
+
 	}
+
 	public boolean checkCycles(int[] distances) {
+
 		for (int j = 0; j < Adjacency_List.size(); j++) {
 			for (Edge edge : Adjacency_List.get(j)) {
 				int u = edge.getU();
 				int v = edge.getV();
 				if (distances[u] + edge.getWeight() < distances[v]) {
+
 					return false;
 				}
+
 			}
 		}
 		return true;
+
 	}
+
 	public int minDistance(int distances[], boolean included[]) {
-		int min = Integer.MAX_VALUE / 2, min_index = -1;
+
+		int min = (Integer.MAX_VALUE / 2), min_index = -1;
+
 		for (int i = 0; i < v; i++)
 			if (included[i] == false && distances[i] <= min) {
 				min = distances[i];
 				min_index = i;
 			}
+
 		return min_index;
 	}
 }
