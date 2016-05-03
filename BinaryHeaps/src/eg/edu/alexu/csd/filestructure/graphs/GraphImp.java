@@ -42,7 +42,7 @@ public class GraphImp implements IGraph {
 				}
 				int counter = 0;
 				while ((sCurrentLine = br.readLine()) != null) {
-
+					
 					numbers = sCurrentLine.split(" ");
 					try {
 						if (Integer.parseInt(numbers[1]) < v
@@ -112,31 +112,23 @@ public class GraphImp implements IGraph {
 	public void runDijkstra(int src, int[] distances) {
 
 		boolean included[] = new boolean[v];
-		int V = getVertices().size();
-		  Boolean sptSet[] = new Boolean[V];
-		  for (int i = 0; i < V; i++) {
-		   distances[i] =Integer.MAX_VALUE / 2;
-		   sptSet[i] = false;
-		  }
+		initialize(src, distances);
+		for (int i = 0; i < v - 1; i++) {
 
-		  distances[src] = 0;
+			int u = minDistance(distances, included);
 
-		  for (int count = 0; count < V - 1; count++) {
-		   int u = minDistance(distances, included);
+			included[u] = true;
+			sequence.add(u);
+			for (int j = 0; j < v; j++)
 
-		   sptSet[u] = true;
-
-		   sequence.add(u);
-		   for (int v = 0; v < V; v++) {
-
-		    if (!included[v] && distances[u] != (Integer.MAX_VALUE / 2)
-		      && distances[u] + Adjacency_List.get(u).get(v).getWeight() < distances[v]) {
-		     distances[v] = distances[u] + Adjacency_List.get(u).get(v).getWeight();
-		    }
-		   }
-		  }
-
-		 
+				if (!included[j]
+						&& distances[u] != (Integer.MAX_VALUE / 2)
+						&& distances[u]
+								+ Adjacency_List.get(u).get(j).getWeight() < distances[j]) {
+					distances[j] = distances[u]
+							+ Adjacency_List.get(u).get(j).getWeight();
+				}
+		}
 
 	}
 
@@ -197,7 +189,7 @@ public class GraphImp implements IGraph {
 
 	public int minDistance(int distances[], boolean included[]) {
 
-		int min = Integer.MAX_VALUE / 2, min_index = -1;
+		int min = (Integer.MAX_VALUE / 2), min_index = -1;
 
 		for (int i = 0; i < v; i++)
 			if (included[i] == false && distances[i] <= min) {
