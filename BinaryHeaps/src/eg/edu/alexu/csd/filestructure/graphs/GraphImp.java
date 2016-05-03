@@ -131,7 +131,7 @@ public class GraphImp implements IGraph {
 			for (int j = 0; j < V; j++) {
 
 				if (!included[j]
-						&& distances[u] != (Integer.MAX_VALUE / 2)&&j < Adjacency_List.get(u).size()
+						&& distances[u] != (Integer.MAX_VALUE / 2)
 						&& distances[u]
 								+ Adjacency_List.get(u).get(j).getWeight() < distances[j]) {
 					distances[j] = distances[u]
