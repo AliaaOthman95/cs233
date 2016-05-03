@@ -18,54 +18,7 @@ public class GraphImp implements IGraph {
 	@Override
 	public void readGraph(File file) {
 
-		 if (file != null && file.isFile()) {
-
-			   try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-			    String sCurrentLine = br.readLine();
-			    if (sCurrentLine != null) {
-			     String[] line = sCurrentLine.split(" ");
-			     if (line[0] != null && line[1] != null) {
-			      v = Integer.parseInt(line[0]);
-			      e= Integer.parseInt(line[1]);
-			     } else {
-			      throw new RuntimeException();
-			     }
-			     for (int i = 0; i < v; i++) {
-			    	 Adjacency_List.put(i, new ArrayList<Edge>());
-			     }
-			     int counter = 0;
-			     while ((sCurrentLine = br.readLine()) != null) {
-			      line = sCurrentLine.split(" ");
-			      if (line[0] != null && line[1] != null && line[2] != null) {
-			       int source = Integer.parseInt(line[0]);
-			       int destination = Integer.parseInt(line[1]);
-			       int weight = Integer.parseInt(line[2]);
-			       if (source <v && destination < v) {
-			        ArrayList<Edge> slist = Adjacency_List.get(source);
-			        slist.add(new Edge(source,destination, weight));
-			        Adjacency_List.put(source, slist);
-			       }
-			       counter++;
-			      } else {
-			       throw new RuntimeException();
-			      }
-			     }
-
-			     if (counter != e) {
-			      throw new RuntimeException();
-			     }
-
-			    }
-			   } catch (IOException e) {
-			    e.printStackTrace();
-			    throw new RuntimeException();
-			   }
-			  } else {
-			   throw new RuntimeException();
-			  }
-
-			 
-		/*BufferedReader br = null;
+		BufferedReader br = null;
 
 		try {
 
@@ -89,7 +42,7 @@ public class GraphImp implements IGraph {
 				}
 				int counter = 0;
 				while ((sCurrentLine = br.readLine()) != null) {
-					
+
 					numbers = sCurrentLine.split(" ");
 					try {
 						if (Integer.parseInt(numbers[1]) < v
@@ -125,7 +78,7 @@ public class GraphImp implements IGraph {
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
-		}*/
+		}
 
 	}
 
@@ -159,23 +112,31 @@ public class GraphImp implements IGraph {
 	public void runDijkstra(int src, int[] distances) {
 
 		boolean included[] = new boolean[v];
-		initialize(src, distances);
-		for (int i = 0; i < v - 1; i++) {
+		int V = getVertices().size();
+		  Boolean sptSet[] = new Boolean[V];
+		  for (int i = 0; i < V; i++) {
+		   distances[i] =Integer.MAX_VALUE / 2;
+		   sptSet[i] = false;
+		  }
 
-			int u = minDistance(distances, included);
+		  distances[src] = 0;
 
-			included[u] = true;
-			sequence.add(u);
-			for (int j = 0; j < v; j++)
+		  for (int count = 0; count < V - 1; count++) {
+		   int u = minDistance(distances, included);
 
-				if (!included[j]
-						&& distances[u] != Integer.MAX_VALUE / 2
-						&& distances[u]
-								+ Adjacency_List.get(u).get(j).getWeight() < distances[j]) {
-					distances[j] = distances[u]
-							+ Adjacency_List.get(u).get(j).getWeight();
-				}
-		}
+		   sptSet[u] = true;
+
+		   sequence.add(u);
+		   for (int v = 0; v < V; v++) {
+
+		    if (!included[v] && distances[u] != (Integer.MAX_VALUE / 2)
+		      && distances[u] + Adjacency_List.get(u).get(v).getWeight() < distances[v]) {
+		     distances[v] = distances[u] + Adjacency_List.get(u).get(v).getWeight();
+		    }
+		   }
+		  }
+
+		 
 
 	}
 
