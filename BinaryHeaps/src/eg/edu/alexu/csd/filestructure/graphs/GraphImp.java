@@ -128,10 +128,10 @@ public class GraphImp implements IGraph {
 
 			included[u] = true;
 			sequence.add(u);
-			for (int j = 0; j < Adjacency_List.get(u).size(); j++) {
+			for (int j = 0; j < V; j++) {
 
 				if (!included[j]
-						&& distances[u] != (Integer.MAX_VALUE / 2)
+						&& distances[u] != (Integer.MAX_VALUE / 2)&&j < Adjacency_List.get(u).size()
 						&& distances[u]
 								+ Adjacency_List.get(u).get(j).getWeight() < distances[j]) {
 					distances[j] = distances[u]
@@ -172,7 +172,8 @@ public class GraphImp implements IGraph {
 
 	public void initialize(int src, int[] distances) {
 
-		for (int j = 0; j < distances.length; j++) {
+		int V = getVertices().size();
+		for (int j = 0; j < V ; j++) {
 			distances[j] = Integer.MAX_VALUE / 2;
 		}
 
