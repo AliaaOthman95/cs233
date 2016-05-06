@@ -1,4 +1,4 @@
-/*package eg.edu.alexu.csd.filestructure.graphs;
+package eg.edu.alexu.csd.filestructure.graphs;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GraphImp implements IGraph {
+public class Graph implements IGraph {
 
 	private int v, e;
 	private Map<Integer, ArrayList<Edge>> Adjacency_List = new HashMap<Integer, ArrayList<Edge>>();;
 	private ArrayList<Integer> sequence = new ArrayList<Integer>();
 	ArrayList<Integer> vertices = new ArrayList<Integer>();
+	int[][] graph;
 
 	@Override
 	public void readGraph(File file) {
@@ -36,33 +37,22 @@ public class GraphImp implements IGraph {
 					throw new RuntimeException();
 				}
 
-				for (int i = 0; i < v; i++) {
-					Adjacency_List.put(i, new ArrayList<Edge>());
-
-				}
+				graph = new int[v][v];
 				int counter = 0;
 				while ((sCurrentLine = br.readLine()) != null) {
 
 					numbers = sCurrentLine.split(" ");
+					int source = Integer.parseInt(numbers[0]);
+					int sink = Integer.parseInt(numbers[1]);
+					int weight = Integer.parseInt(numbers[2]);
 					try {
-						if (Integer.parseInt(numbers[1]) < v
-								&& Integer.parseInt(numbers[0]) < v) {
-							Edge d = new Edge(Integer.parseInt(numbers[0]),
-									Integer.parseInt(numbers[1]),
-									Integer.parseInt(numbers[2]));
-							ArrayList<Edge> list = Adjacency_List.get(Integer
-									.parseInt(numbers[0]));
-
-							list.add(d);
-							Adjacency_List.put(Integer.parseInt(numbers[0]),
-									list);
-							if (!vertices
-									.contains(Integer.parseInt(numbers[0]))) {
-								vertices.add(Integer.parseInt(numbers[0]));
+						if (source < v && sink < v) {
+							graph[source][sink] = weight;
+							if (!vertices.contains(source)) {
+								vertices.add(source);
 							}
-							if (!vertices
-									.contains(Integer.parseInt(numbers[1]))) {
-								vertices.add(Integer.parseInt(numbers[1]));
+							if (!vertices.contains(sink)) {
+								vertices.add(sink);
 							}
 							counter++;
 						}
@@ -109,8 +99,8 @@ public class GraphImp implements IGraph {
 	public ArrayList<Integer> getNeighbors(int v) {
 
 		ArrayList<Integer> neighbour = new ArrayList<Integer>();
-		for (int i = 0; i < Adjacency_List.get(v).size(); i++) {
-			neighbour.add(Adjacency_List.get(v).get(i).getV());
+		for (int i = 0; i < graph[v].length && graph[v][i] != 0; i++) {
+			neighbour.add(graph[v][i]);
 		}
 
 		return neighbour;
@@ -128,14 +118,12 @@ public class GraphImp implements IGraph {
 
 			included[u] = true;
 			sequence.add(u);
-			for (int j = 0; j < V-1; j++) {
+			for (int j = 0; j < V; j++) {
 
-				if (!included[j]
-						&& distances[u] != (Integer.MAX_VALUE / 2)&& Adjacency_List.get(u).get(j)!=null
-						&& distances[u]
-								+ Adjacency_List.get(u).get(j).getWeight() < distances[j]) {
-					distances[j] = distances[u]
-							+ Adjacency_List.get(u).get(j).getWeight();
+				if (!included[j] && distances[u] != (Integer.MAX_VALUE / 2)
+						&& graph[u][j] != 0
+						&& distances[u] + graph[u][j] < distances[j]) {
+					distances[j] = distances[u] + graph[u][j];
 				}
 			}
 		}
@@ -152,15 +140,15 @@ public class GraphImp implements IGraph {
 	public boolean runBellmanFord(int src, int[] distances) {
 
 		initialize(src, distances);
-
+		int V = getVertices().size();
 		for (int i = 0; i < v - 1; i++) {
-			for (int j = 0; j < Adjacency_List.size(); j++) {
-				for (Edge edge : Adjacency_List.get(j)) {
-					int u = edge.getU();
-					int v = edge.getV();
+			for (int j = 0; j < V; j++) {
+				for (int k = 0; k < graph[j].length && graph[j][k] != 0; k++) {
+					int u = j;
+					int v = k;
 					// relax the edge
-					if (distances[u] + edge.getWeight() < distances[v]) {
-						distances[v] = distances[u] + edge.getWeight();
+					if (distances[u] + graph[j][k] < distances[v]) {
+						distances[v] = distances[u] + graph[j][k];
 
 					}
 				}
@@ -173,7 +161,7 @@ public class GraphImp implements IGraph {
 	public void initialize(int src, int[] distances) {
 
 		int V = getVertices().size();
-		for (int j = 0; j < V ; j++) {
+		for (int j = 0; j < V; j++) {
 			distances[j] = Integer.MAX_VALUE / 2;
 		}
 
@@ -183,15 +171,16 @@ public class GraphImp implements IGraph {
 
 	public boolean checkCycles(int[] distances) {
 
-		for (int j = 0; j < Adjacency_List.size(); j++) {
-			for (Edge edge : Adjacency_List.get(j)) {
-				int u = edge.getU();
-				int v = edge.getV();
-				if (distances[u] + edge.getWeight() < distances[v]) {
-
+		int V = getVertices().size();
+		for (int j = 0; j < V; j++) {
+			for (int k = 0; k < graph[j].length && graph[j][k] != 0; k++) {
+				int u = j;
+				int v = k;
+				// relax the edge
+				if (distances[u] + graph[j][k] < distances[v]) {
 					return false;
-				}
 
+				}
 			}
 		}
 		return true;
@@ -210,4 +199,4 @@ public class GraphImp implements IGraph {
 
 		return min_index;
 	}
-}*/
+}
