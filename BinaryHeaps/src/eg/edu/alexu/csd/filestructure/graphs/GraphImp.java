@@ -99,7 +99,7 @@ public class GraphImp implements IGraph {
 	public ArrayList<Integer> getNeighbors(int v) {
 int V = getVertices().size();
 		ArrayList<Integer> neighbour = new ArrayList<Integer>();
-		for (int i = 0; i < V && graph[v][i] != 0; i++) {
+		for (int i = 0; i < V ; i++) {
 			neighbour.add(i);
 		}
 
