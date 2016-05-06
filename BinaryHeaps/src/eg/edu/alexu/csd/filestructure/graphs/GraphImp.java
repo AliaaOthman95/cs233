@@ -36,7 +36,10 @@ public class GraphImp implements IGraph {
 				} catch (Exception e) {
 					throw new RuntimeException();
 				}
+				for (int i = 0; i < v; i++) {
+					Adjacency_List.put(i, new ArrayList<Edge>());
 
+				}
 				graph = new int[v][v];
 				int counter = 0;
 				while ((sCurrentLine = br.readLine()) != null) {
@@ -48,6 +51,11 @@ public class GraphImp implements IGraph {
 					try {
 						if (source < v && sink < v) {
 							graph[source][sink] = weight;
+							Edge d = new Edge(source, sink, weight);
+							ArrayList<Edge> list = Adjacency_List.get(source);
+
+							list.add(d);
+							Adjacency_List.put(source, list);
 							if (!vertices.contains(source)) {
 								vertices.add(source);
 							}
@@ -97,10 +105,10 @@ public class GraphImp implements IGraph {
 
 	@Override
 	public ArrayList<Integer> getNeighbors(int v) {
-int V = getVertices().size();
+
 		ArrayList<Integer> neighbour = new ArrayList<Integer>();
-		for (int i = 0; i < V ; i++) {
-			neighbour.add(i);
+		for (int i = 0; i < Adjacency_List.get(v).size(); i++) {
+			neighbour.add(Adjacency_List.get(v).get(i).getV());
 		}
 
 		return neighbour;
@@ -140,15 +148,15 @@ int V = getVertices().size();
 	public boolean runBellmanFord(int src, int[] distances) {
 
 		initialize(src, distances);
-		int V = getVertices().size();
+
 		for (int i = 0; i < v - 1; i++) {
-			for (int j = 0; j < V; j++) {
-				for (int k = 0; k < graph[j].length && graph[j][k] != 0; k++) {
-					int u = j;
-					int v = k;
+			for (int j = 0; j < Adjacency_List.size(); j++) {
+				for (Edge edge : Adjacency_List.get(j)) {
+					int u = edge.getU();
+					int v = edge.getV();
 					// relax the edge
-					if (distances[u] + graph[j][k] < distances[v]) {
-						distances[v] = distances[u] + graph[j][k];
+					if (distances[u] + edge.getWeight() < distances[v]) {
+						distances[v] = distances[u] + edge.getWeight();
 
 					}
 				}
@@ -171,16 +179,15 @@ int V = getVertices().size();
 
 	public boolean checkCycles(int[] distances) {
 
-		int V = getVertices().size();
-		for (int j = 0; j < V; j++) {
-			for (int k = 0; k < graph[j].length && graph[j][k] != 0; k++) {
-				int u = j;
-				int v = k;
-				// relax the edge
-				if (distances[u] + graph[j][k] < distances[v]) {
-					return false;
+		for (int j = 0; j < Adjacency_List.size(); j++) {
+			for (Edge edge : Adjacency_List.get(j)) {
+				int u = edge.getU();
+				int v = edge.getV();
+				if (distances[u] + edge.getWeight() < distances[v]) {
 
+					return false;
 				}
+
 			}
 		}
 		return true;
