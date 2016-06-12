@@ -39,6 +39,7 @@ public class Linear<K, V> implements IHash<K, V>, IHashLinearProbing {
 		for (int i = 0; i < hashTable.length; i++) {
 			put(hashTable[i].getKey(), hashTable[i].getValue());
 	}
+		
 		hashTable = hashTable2 ;
 	}
 
