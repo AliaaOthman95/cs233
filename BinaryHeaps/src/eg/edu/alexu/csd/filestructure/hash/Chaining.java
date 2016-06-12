@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Chaining<K, V> implements IHash<K, V>, IHashChaining {
 
 	private int size = 1200;
-	private int col =0;
+	private int col =0 ,counter =0;
 	private ArrayList<Pair<K, V>> hashTable[] = new ArrayList[size];
 	private ArrayList<K> keys = new ArrayList<K>();
 
@@ -37,6 +37,7 @@ public class Chaining<K, V> implements IHash<K, V>, IHashChaining {
 			}
 
 		}
+		counter++;
 
 	}
 
@@ -103,12 +104,7 @@ public class Chaining<K, V> implements IHash<K, V>, IHashChaining {
 	@Override
 	public int size() {
 
-		int counter = 0;
-		for (int i = 0; i < hashTable.length; i++) {
-			if (hashTable[i] != null) {
-				counter++;
-			}
-		}
+		
 		return counter;
 	}
 
