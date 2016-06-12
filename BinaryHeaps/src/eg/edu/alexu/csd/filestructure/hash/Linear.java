@@ -24,15 +24,22 @@ public class Linear<K, V> implements IHash<K, V>, IHashLinearProbing {
 	}
 
 	private void rehash(int cap) {
+//		Pair<K, V>[] hashTable2 = new Pair[capacity];
+//		capacity = cap;
+//		// System.arraycopy(hashTable, 0, hashTable2, 0, hashTable.length);
+//
+//		hashTable = new Pair[capacity];
+//		for (int i = 0; i < hashTable2.length; i++) {
+//			put(hashTable2[i].getKey(), hashTable2[i].getValue());
+//		}
+		
+		capacity = cap ;
 		Pair<K, V>[] hashTable2 = new Pair[capacity];
-		capacity = cap;
-		// System.arraycopy(hashTable, 0, hashTable2, 0, hashTable.length);
-
-		hashTable = new Pair[capacity];
-		for (int i = 0; i < hashTable2.length; i++) {
-			put(hashTable2[i].getKey(), hashTable2[i].getValue());
-		}
-
+		
+		for (int i = 0; i < hashTable.length; i++) {
+			put(hashTable[i].getKey(), hashTable[i].getValue());
+	}
+		hashTable = hashTable2 ;
 	}
 
 	@Override
