@@ -12,7 +12,7 @@ public class Linear<K, V> implements IHash<K, V>, IHashLinearProbing {
 	@Override
 	public void put(K key, V value) {
 		if (size == capacity)
-			rehash(capacity*2);
+			rehash(capacity * 2);
 		int hashIndex = key.hashCode() % capacity;
 		while (hashTable[hashIndex] != null
 				&& hashTable[hashIndex].getKey() != key) {
@@ -26,8 +26,8 @@ public class Linear<K, V> implements IHash<K, V>, IHashLinearProbing {
 	private void rehash(int cap) {
 		Pair<K, V>[] hashTable2 = hashTable;
 		capacity = cap;
-		//System.arraycopy(hashTable, 0, hashTable2, 0, hashTable.length);
-		
+		// System.arraycopy(hashTable, 0, hashTable2, 0, hashTable.length);
+
 		hashTable = new Pair[capacity];
 		for (int i = 0; i < hashTable2.length; i++) {
 			put(hashTable2[i].getKey(), hashTable2[i].getValue());
@@ -47,7 +47,7 @@ public class Linear<K, V> implements IHash<K, V>, IHashLinearProbing {
 	@Override
 	public void delete(K key) {
 		for (int i = 0; i < hashTable.length; i++) {
-			if (hashTable[i].getKey().equals(key)) {
+			if (hashTable[i] != null && hashTable[i].getKey().equals(key)) {
 				hashTable[i] = null;
 				size--;
 			}
