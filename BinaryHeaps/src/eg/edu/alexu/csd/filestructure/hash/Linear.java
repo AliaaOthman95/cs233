@@ -38,7 +38,7 @@ public class Linear<K, V> implements IHash<K, V>, IHashLinearProbing {
 	@Override
 	public String get(K key) {
 		for (int i = 0; i < hashTable.length; i++) {
-			if (hashTable[i].getKey().equals(key))
+			if (hashTable[i] != null && hashTable[i].getKey().equals(key))
 				return (String) hashTable[i].getValue();
 		}
 		return null;
