@@ -19,8 +19,9 @@ public class Chaining<K, V> implements IHash<K, V>, IHashChaining {
 			hashTable[hashIndex] = chain;
 			keys.add(key);
 		} else {
-			col++;
+		
 			ArrayList<Pair<K, V>> entry = hashTable[hashIndex];
+			col+=entry.size() ;
 			for (Pair<K, V> element : entry) {
 
 				if (element.getKey().equals(key)) {
