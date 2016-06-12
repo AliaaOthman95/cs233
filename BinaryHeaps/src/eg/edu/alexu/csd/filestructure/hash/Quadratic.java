@@ -4,21 +4,21 @@ import java.util.ArrayList;
 
 public class Quadratic<K, V> implements IHash<K, V>, IHashLinearProbing {
 
-	
 	private int capacity = 1200;
 	private int col = 0, size = 0;
 	private Pair<K, V>[] hashTable = new Pair[capacity];
 	private ArrayList<K> keys = new ArrayList<K>();
+
 	@Override
 	public void put(K key, V value) {
 		if (size == capacity)
 			rehash();
 		int hashIndex = key.hashCode() % capacity;
-		int i =0 ;
+		int i = 0;
 		while (hashTable[hashIndex] != null
 				&& hashTable[hashIndex].getKey() != key) {
 			col++;
-			hashIndex = (hashIndex + i *i ) % capacity;
+			hashIndex = (hashIndex + i * i) % capacity;
 			i++;
 		}
 		hashTable[hashIndex] = new Pair<K, V>(key, value);
@@ -26,19 +26,30 @@ public class Quadratic<K, V> implements IHash<K, V>, IHashLinearProbing {
 	}
 
 	private void rehash() {
-		Pair<K, V>[] hashTable2 = hashTable;
-		//hashTable2 = java.util.Arrays.copyOf(hashTable,hashTable.length);
-		capacity = capacity*2;
-		// System.arraycopy(hashTable, 0, hashTable2, 0, hashTable.length);
+		// Pair<K, V>[] hashTable2 = hashTable;
+		// //hashTable2 = java.util.Arrays.copyOf(hashTable,hashTable.length);
+		// capacity = capacity*2;
+		// // System.arraycopy(hashTable, 0, hashTable2, 0, hashTable.length);
+		//
+		// hashTable = new Pair[capacity];
+		// for (int i = 0; i < hashTable2.length; i++) {
+		// if(hashTable2[i]!= null)
+		// {
+		// put(hashTable2[i].getKey(), hashTable2[i].getValue());
+		// }
+		// }
 
-		hashTable = new Pair[capacity];
-		for (int i = 0; i < hashTable2.length; i++) {
-			if(hashTable2[i]!= null)
-			{
-			put(hashTable2[i].getKey(), hashTable2[i].getValue());
-			}
+		capacity = capacity * 2 ;
+		Pair<K, V>[] hashTable2 = new Pair[capacity];
+
+		for (int i = 0; i < hashTable.length; i++) {
+			put(hashTable[i].getKey(), hashTable[i].getValue());
 		}
+
+		// hashTable = hashTable2 ;
+		hashTable = java.util.Arrays.copyOf(hashTable2, hashTable2.length);
 	}
+
 	@Override
 	public String get(K key) {
 		for (int i = 0; i < hashTable.length; i++) {
@@ -56,7 +67,7 @@ public class Quadratic<K, V> implements IHash<K, V>, IHashLinearProbing {
 				size--;
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -105,6 +116,5 @@ public class Quadratic<K, V> implements IHash<K, V>, IHashLinearProbing {
 
 		return keys;
 	}
-
 
 }
