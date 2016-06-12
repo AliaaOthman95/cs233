@@ -76,6 +76,7 @@ public class Chaining<K, V> implements IHash<K, V>, IHashChaining {
 				}
 			}
 		}
+		counter--;
 
 	}
 
