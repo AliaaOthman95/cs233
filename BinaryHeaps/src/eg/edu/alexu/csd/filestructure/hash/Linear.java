@@ -39,7 +39,7 @@ public class Linear<K, V> implements IHash<K, V>, IHashLinearProbing {
 		int cap = capacity;
 		capacity *= 2;
 		hashTable = new Pair[capacity];
-		for (int i = 0; i < cap; i++) {
+		for (int i = 0; i < capacity / 2; i++) {
 			put(temp[i].getKey(), temp[i].getValue());
 		}
 
@@ -109,7 +109,6 @@ public class Linear<K, V> implements IHash<K, V>, IHashLinearProbing {
 	@Override
 	public Iterable<K> keys() {
 
-		
 		for (int i = 0; i < hashTable.length; i++) {
 			if (hashTable[i] != null)
 				keys.add(hashTable[i].getKey());
