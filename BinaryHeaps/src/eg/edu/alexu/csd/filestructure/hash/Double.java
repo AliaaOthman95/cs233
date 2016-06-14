@@ -17,13 +17,13 @@ public class Double<K, V> implements IHash<K, V>, IHashDouble {
 		}
 		int hashIndex = key.hashCode() % capacity;
 		int h = hashIndex;
-		int i = 1;
+		int i = 0;
 		while (hashTable[hashIndex] != null
 				&& hashTable[hashIndex].getKey() != key) {
-
+			i++;
 			col++;
 			hashIndex = (h + i * hash((Integer) key)) % capacity;
-			i++;
+
 			if (i == capacity) {
 				col++;
 				rehash();
