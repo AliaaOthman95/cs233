@@ -2,7 +2,7 @@ package eg.edu.alexu.csd.filestructure.hash;
 
 import java.util.ArrayList;
 
-public class Quadratic<K, V> implements IHash<K, V>, IHashLinearProbing {
+public class Quadratic<K, V> implements IHash<K, V>, IHashQuadraticProbing {
 
 	private int capacity = 1200;
 	private int col = 0, size = 0;
@@ -14,7 +14,7 @@ public class Quadratic<K, V> implements IHash<K, V>, IHashLinearProbing {
 		if (size == capacity)
 			rehash();
 		int hashIndex = key.hashCode() % capacity;
-		int i = 0;
+		int i = 1;
 		while (hashTable[hashIndex] != null
 				&& hashTable[hashIndex].getKey() != key) {
 			col++;
