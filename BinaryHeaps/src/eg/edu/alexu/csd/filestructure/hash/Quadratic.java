@@ -12,10 +12,10 @@ public class Quadratic<K, V> implements IHash<K, V>, IHashQuadraticProbing {
 	@Override
 	public void put(K key, V value) {
 		boolean flag = false;
-		if (size == capacity) {
-			col += capacity + 1;
-			rehash();
-		}
+//		if (size == capacity) {
+//			col += capacity + 1;
+//			rehash();
+//		}
 		int hashIndex = key.hashCode() % capacity;
 		int h = hashIndex;
 		int i = 0;

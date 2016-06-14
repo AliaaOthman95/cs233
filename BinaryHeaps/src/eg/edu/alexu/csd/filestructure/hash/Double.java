@@ -11,10 +11,10 @@ public class Double<K, V> implements IHash<K, V>, IHashDouble {
 
 	@Override
 	public void put(K key, V value) {
-		if (size == capacity) {
-			col += capacity + 1;
-			rehash();
-		}
+////		if (size == capacity) {
+////			col += capacity + 1;
+////			rehash();
+//		}
 		int hashIndex = key.hashCode() % capacity;
 		int h = hashIndex;
 		int i = 0;
