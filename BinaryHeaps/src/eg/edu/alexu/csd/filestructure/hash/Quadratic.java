@@ -11,29 +11,29 @@ public class Quadratic<K, V> implements IHash<K, V>, IHashQuadraticProbing {
 
 	@Override
 	public void put(K key, V value) {
-		boolean flag = false ;
-		 if (size == capacity) {
-		      col += capacity+1;
-		      rehash();
-		    }
+		boolean flag = false;
+		if (size == capacity) {
+			col += capacity + 1;
+			rehash();
+		}
 		int hashIndex = key.hashCode() % capacity;
 		int h = hashIndex;
-		int i = 0;
+		int i = 1;
 		while (hashTable[hashIndex] != null
 				&& hashTable[hashIndex].getKey() != key) {
-			i++;
+
 			flag = true;
 			col++;
 			hashIndex = (h + i * i) % capacity;
-			if(i== capacity)
-			{
+			i++;
+			if (i == capacity) {
 				col++;
 				rehash();
-				put(key,value);
+				put(key, value);
 				return;
-				
+
 			}
-			
+
 		}
 		if (flag)
 			col++;
@@ -55,7 +55,7 @@ public class Quadratic<K, V> implements IHash<K, V>, IHashQuadraticProbing {
 			if (temp[i] != null)
 				put(temp[i].getKey(), temp[i].getValue());
 		}
-		
+
 	}
 
 	@Override
@@ -122,13 +122,13 @@ public class Quadratic<K, V> implements IHash<K, V>, IHashQuadraticProbing {
 	@Override
 	public Iterable<K> keys() {
 
-
 		for (int i = 0; i < hashTable.length; i++) {
 			if (hashTable[i] != null)
 				keys.add(hashTable[i].getKey());
 		}
 		return keys;
 	}
+
 	private boolean isHashTableTooFull() {
 		return size > MAX_LOAD_FACTOR * capacity;
 	}
