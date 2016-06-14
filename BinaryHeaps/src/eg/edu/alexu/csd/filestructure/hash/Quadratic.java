@@ -3,7 +3,7 @@ package eg.edu.alexu.csd.filestructure.hash;
 import java.util.ArrayList;
 
 public class Quadratic<K, V> implements IHash<K, V>, IHashQuadraticProbing {
-
+	private static final double MAX_LOAD_FACTOR = 0.75;
 	private int capacity = 1200;
 	private int col = 0, size = 0;
 	private Pair<K, V>[] hashTable = new Pair[capacity];
@@ -11,43 +11,51 @@ public class Quadratic<K, V> implements IHash<K, V>, IHashQuadraticProbing {
 
 	@Override
 	public void put(K key, V value) {
-		if (size == capacity)
-			rehash();
+		boolean flag = false ;
+		 if (size == capacity) {
+		      col += capacity+1;
+		      rehash();
+		    }
 		int hashIndex = key.hashCode() % capacity;
-		int i = 1;
+		int h = hashIndex;
+		int i = 0;
 		while (hashTable[hashIndex] != null
 				&& hashTable[hashIndex].getKey() != key) {
-			col++;
-			hashIndex = (hashIndex + i * i) % capacity;
 			i++;
+			flag = true;
+			col++;
+			hashIndex = (h + i * i) % capacity;
+			if(i== capacity)
+			{
+				col++;
+				rehash();
+				put(key,value);
+				return;
+				
+			}
+			
 		}
+		if (flag)
+			col++;
 		hashTable[hashIndex] = new Pair<K, V>(key, value);
 		size++;
 	}
 
 	private void rehash() {
-		// Pair<K, V>[] hashTable2 = hashTable;
-		// //hashTable2 = java.util.Arrays.copyOf(hashTable,hashTable.length);
-		// capacity = capacity*2;
-		// // System.arraycopy(hashTable, 0, hashTable2, 0, hashTable.length);
-		//
-		// hashTable = new Pair[capacity];
-		// for (int i = 0; i < hashTable2.length; i++) {
-		// if(hashTable2[i]!= null)
-		// {
-		// put(hashTable2[i].getKey(), hashTable2[i].getValue());
-		// }
-		// }
 
-		capacity = capacity * 2 ;
-		Pair<K, V>[] hashTable2 = new Pair[capacity];
-
-		for (int i = 0; i < hashTable.length; i++) {
-			put(hashTable[i].getKey(), hashTable[i].getValue());
+		size = 0;
+		Pair<K, V>[] temp = new Pair[capacity];
+		for (int i = 0; i < capacity; i++) {
+			temp[i] = hashTable[i];
 		}
-
-		// hashTable = hashTable2 ;
-		hashTable = java.util.Arrays.copyOf(hashTable2, hashTable2.length);
+		int cap = capacity;
+		capacity *= 2;
+		hashTable = new Pair[capacity];
+		for (int i = 0; i < capacity / 2; i++) {
+			if (temp[i] != null)
+				put(temp[i].getKey(), temp[i].getValue());
+		}
+		
 	}
 
 	@Override
@@ -114,7 +122,15 @@ public class Quadratic<K, V> implements IHash<K, V>, IHashQuadraticProbing {
 	@Override
 	public Iterable<K> keys() {
 
+
+		for (int i = 0; i < hashTable.length; i++) {
+			if (hashTable[i] != null)
+				keys.add(hashTable[i].getKey());
+		}
 		return keys;
+	}
+	private boolean isHashTableTooFull() {
+		return size > MAX_LOAD_FACTOR * capacity;
 	}
 
 }

@@ -117,8 +117,6 @@ public class Linear<K, V> implements IHash<K, V>, IHashLinearProbing {
 		return keys;
 	}
 
-	private boolean isHashTableTooFull() {
-		return size > MAX_LOAD_FACTOR * capacity;
-	}
+	
 
 }
