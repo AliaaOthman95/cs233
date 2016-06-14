@@ -33,7 +33,7 @@ public class Linear<K, V> implements IHash<K, V>, IHashLinearProbing {
 
 		size = 0;
 		Pair<K, V>[] temp = new Pair[capacity];
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < capacity; i++) {
 			temp[i] = hashTable[i];
 		}
 		int cap = capacity;
