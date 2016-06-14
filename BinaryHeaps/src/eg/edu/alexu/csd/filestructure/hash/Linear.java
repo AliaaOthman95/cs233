@@ -109,6 +109,11 @@ public class Linear<K, V> implements IHash<K, V>, IHashLinearProbing {
 	@Override
 	public Iterable<K> keys() {
 
+		
+		for (int i = 0; i < hashTable.length; i++) {
+			if (hashTable[i] != null)
+				keys.add(hashTable[i].getKey());
+		}
 		return keys;
 	}
 
