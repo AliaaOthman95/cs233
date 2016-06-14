@@ -40,7 +40,8 @@ public class Linear<K, V> implements IHash<K, V>, IHashLinearProbing {
 		capacity *= 2;
 		hashTable = new Pair[capacity];
 		for (int i = 0; i < capacity / 2; i++) {
-			put(temp[i].getKey(), temp[i].getValue());
+			if (temp[i] != null)
+				put(temp[i].getKey(), temp[i].getValue());
 		}
 
 	}
