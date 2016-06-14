@@ -12,7 +12,7 @@ public class Linear<K, V> implements IHash<K, V>, IHashLinearProbing {
 	@Override
 	public void put(K key, V value) {
 		boolean flag = false;
-		if (isHashTableTooFull()) {
+		if (size == capacity) {
 			col += capacity + 1;
 			rehash();
 		}
